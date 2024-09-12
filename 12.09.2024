@@ -1,0 +1,37 @@
+using System;
+using System.Net;
+using System.Net.Mail;
+
+class Program
+{
+    static void Main()
+    {
+        try
+        {
+            // Настройки отправителя
+            string fromEmail = "your_email@example.com"; // Ваш email
+            string fromPassword = "your_password"; // Ваш пароль
+            string toEmail = "recipient_email@example.com"; // Email получателя
+            
+            // Создание объекта MailMessage
+            MailMessage mail = new MailMessage();
+            mail.From = new MailAddress(fromEmail);
+            mail.To.Add(toEmail);
+            mail.Subject = "Тема вашего письма"; // Тема письма
+            mail.Body = "Текст вашего сообщения"; // Текст письма
+
+            // Настройка SMTP клиента
+            SmtpClient smtpClient = new SmtpClient("smtp.example.com", 587); // SMTP сервер и порт
+            smtpClient.Credentials = new NetworkCredential(fromEmail, fromPassword);
+            smtpClient.EnableSsl = true; // Использование SSL
+
+            // Отправка письма
+            smtpClient.Send(mail);
+            Console.WriteLine("Письмо успешно отправлено!");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Ошибка при отправке письма: " + ex.Message);
+        }
+    }
+}
