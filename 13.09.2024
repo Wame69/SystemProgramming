@@ -1,0 +1,67 @@
+//using System;
+//using System.Collections.Generic;
+//using System.ComponentModel;
+//using System.Data;
+//using System.Diagnostics;
+//using System.IO;
+//using System.Linq;
+//using System.ServiceProcess;
+//using System.Text;
+//using System.Threading.Tasks;
+
+//namespace VersionControl
+//{
+//    public partial class Service1 : ServiceBase
+//    {
+//        private FileSystemWatcher watcher;
+//        private string logFilePath = @"C:\PathToLog\log.txt"; 
+
+//        public Service1()
+//        {
+//            InitializeComponent();
+
+
+//            watcher = new FileSystemWatcher();
+//            watcher.Path = @"C:\MonitorDirectory"; 
+//            watcher.NotifyFilter = NotifyFilters.FileName | NotifyFilters.LastWrite;
+//            watcher.Filter = "*.*";  
+
+//            watcher.Created += OnChanged;
+//            watcher.Changed += OnChanged;
+//            watcher.Deleted += OnChanged;
+//        }
+
+//        protected override void OnStart(string[] args)
+//        {
+//            watcher.EnableRaisingEvents = true;
+//            WriteLog("Служба запущена.");
+//        }
+
+//        protected override void OnStop()
+//        {
+//            watcher.EnableRaisingEvents = false;
+//            WriteLog("Служба остановлена.");
+//        }
+
+//        private void OnChanged(object sender, FileSystemEventArgs e)
+//        {
+//            string message = $"{e.ChangeType}: {e.FullPath} at {DateTime.Now}";
+//            WriteLog(message);
+//        }
+
+//        private void WriteLog(string message)
+//        {
+//            try
+//            {
+//                using (StreamWriter writer = new StreamWriter(logFilePath, true))
+//                {
+//                    writer.WriteLine($"{DateTime.Now}: {message}");
+//                }
+//            }
+//            catch (Exception ex)
+//            {
+//                Console.WriteLine($"Ошибка записи в лог: {ex.Message}");
+//            }
+//        }
+//    }
+//}
