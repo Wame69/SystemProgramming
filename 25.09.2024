@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace MatrixPathFinder
+namespace Matrix
 {
     class Program
     {
@@ -17,21 +17,28 @@ namespace MatrixPathFinder
                 return;
             }
 
-            bool[,] obstacles = CreateObstaclesMatrix(n, m);
+            bool[,] obstacles = Create(n, m);
+       
 
-            long count = CountPaths(n, m, obstacles);
-
-            Console.WriteLine($"Количество возможных путей: {count}");
-
-            List<string> paths = GeneratePaths(n, m, obstacles);
-            Console.WriteLine("Все возможные маршруты:");
-            foreach (string path in paths)
+            long count = Count(n, m, obstacles);
+            if (n >= 10 || m >= 10)
             {
-                Console.WriteLine(path);
+                Console.WriteLine($"Количество возможных путей: {count}");
             }
+            else
+            {
+                Console.WriteLine($"Количество возможных путей: {count}");
+                List<string> paths = Gener(n, m, obstacles);
+                Console.WriteLine("Все возможные маршруты:");
+                foreach (string path in paths)
+                {
+                    Console.WriteLine(path);
+                }
+            }
+           
         }
 
-        static bool[,] CreateObstaclesMatrix(int n, int m)
+        static bool[,] Create(int n, int m)
         {
             bool[,] obstacles = new bool[n, m];
 
@@ -52,7 +59,7 @@ namespace MatrixPathFinder
             return obstacles;
         }
 
-        static long CountPaths(int n, int m, bool[,] obstacles)
+        static long Count(int n, int m, bool[,] obstacles)
         {
             long[,] dp = new long[n, m];
 
@@ -80,14 +87,14 @@ namespace MatrixPathFinder
             return dp[n - 1, m - 1];
         }
 
-        static List<string> GeneratePaths(int n, int m, bool[,] obstacles)
+        static List<string> Gener(int n, int m, bool[,] obstacles)
         {
             List<string> paths = new List<string>();
-            GeneratePathsHelper(n, m, 0, 0, obstacles, "", paths);
+            Felper(n, m, 0, 0, obstacles, "", paths);
             return paths;
         }
 
-        static void GeneratePathsHelper(int n, int m, int i, int j, bool[,] obstacles, string path, List<string> paths)
+        static void Felper(int n, int m, int i, int j, bool[,] obstacles, string path, List<string> paths)
         {
             if (i == n - 1 && j == m - 1)
             {
@@ -97,11 +104,11 @@ namespace MatrixPathFinder
 
             if (i < n - 1 && !obstacles[i + 1, j])
             {
-                GeneratePathsHelper(n, m, i + 1, j, obstacles, path + " вниз ", paths);
+                Felper(n, m, i + 1, j, obstacles, path + "вниз ", paths);
             }
             if (j < m - 1 && !obstacles[i, j + 1])
             {
-                GeneratePathsHelper(n, m, i, j + 1, obstacles, path + " вправо ", paths);
+                Felper(n, m, i, j + 1, obstacles, path + "вправо ", paths);
             }
         }
     }
